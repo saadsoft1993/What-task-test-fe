@@ -10,19 +10,20 @@ import { useFormik } from 'formik';
 
 import { loginAction } from './store/slice'
 
+import { RootState } from 'store'
+
 import './style.scss'
 
 const Login = () => {
+  const loading: boolean = useSelector((state: RootState) => state.login.loading)
   const dispatch = useDispatch()
 
   const validationSchema = object().shape({
     email: string().email().required("Email is required"),
+    password: string().required("Password is required")
+  })
 
-    password: string()
-      .required("Password is required")
-  });
-
-  const { handleChange, values, errors } = useFormik({
+  const { handleChange, values, errors, isValid } = useFormik({
     initialValues: {
       email: '',
       password: ''
@@ -40,7 +41,7 @@ const Login = () => {
     }))
   }
 
-  console.log('values', values, errors);
+  console.log('values', values, errors, isValid);
 
   return (
     <div className="login-container">
@@ -77,7 +78,7 @@ const Login = () => {
             {errors.password && <p className='text-danger'>{errors.password}</p>}
           </div>
           <div className="d-grid gap-2 mt-4">
-            <Button className="btn btn-primary" onClick={onLogin}>
+            <Button className="btn btn-primary" onClick={onLogin} disabled={!isValid || loading || !values.email || !values.password}>
               Login
             </Button>
           </div>

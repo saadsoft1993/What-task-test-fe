@@ -11,6 +11,8 @@ import * as React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import FontFaceObserver from 'fontfaceobserver';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
@@ -35,11 +37,14 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+const persistor = persistStore(store);
+
+
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
       <App />
-    </React.StrictMode>
+    </PersistGate>
   </Provider>,
 );
 
