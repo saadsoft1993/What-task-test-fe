@@ -37,24 +37,19 @@ export function HomePage() {
     {
       title: 'Title',
       dataIndex: 'name',
+      sorter: (a, b) => a.name.length - b.name.length,
     },
     {
-      title: 'Url',
+      title: 'URL',
       dataIndex: 'url',
-      filters: [
-        {
-          text: 'url',
-          value: 'url',
-        }
-      ],
-
-      filterSearch: true,
       width: '40%',
+      sorter: (a, b) => a.url.length - b.url.length,
     },
     {
       title: 'Ratings',
       dataIndex: 'average_rating',
       width: '30%',
+      sorter: (a, b) => a.average_rating - b.average_rating
     },
     {
       title: 'Tags',
