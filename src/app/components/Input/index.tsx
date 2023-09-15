@@ -1,13 +1,20 @@
 import React from 'react'
 
-import { FormControl } from 'react-bootstrap';
-
-const Input = ({ type, className, placeholder }: React.InputHTMLAttributes<HTMLInputElement>) => {
+const Input = ({ type,
+    className,
+    placeholder,
+    name,
+    value,
+    onChange
+}: React.InputHTMLAttributes<HTMLInputElement>) => {
     return (
-        <FormControl
+        <input
+            name={name}
+            value={value}
             type={type}
             className={className}
             placeholder={placeholder}
+            onChange={onChange}
         />
     )
 }
