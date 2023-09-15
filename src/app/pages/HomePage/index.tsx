@@ -1,5 +1,7 @@
+import React, { useEffect, useState } from 'react'
+import debounce from 'lodash.debounce'
+
 import { Table } from 'antd';
-import React, { useEffect } from 'react'
 import type { ColumnsType } from 'antd/es/table';
 import './style.scss'
 import EditModal from './components/MainContent/EditModal';
@@ -12,14 +14,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getVideosAction } from './store/slice'
 import { RootState } from 'store'
 import { Video } from './store/slice'
+import Input from 'app/components/Input'
 
 export function HomePage() {
+  const [search, setSearch] = useState('')
   const accessToken: string = useSelector((state: RootState) => state.login.accessToken)
   const videos: Video[] = useSelector((state: RootState) => state.videos.videos)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getVideosAction(accessToken))
+    dispatch(getVideosAction({ accessToken }))
   }, [])
 
   interface DataType {
@@ -74,10 +78,16 @@ export function HomePage() {
     console.log('params', pagination, filters, sorter, extra);
   };
 
+  const onSearch = (search: string) => {
+    setSearch(search)
+    dispatch(getVideosAction({ accessToken, search }))
+  }
+
   return (
     <>
       <Header />
       <div className="container py-5">
+        <Input name="search" type="text" placeholder='Search' value={search} onChange={e => onSearch(e.target.value)} />
         <div className="table-row">
           <Table columns={columns} dataSource={videos} onChange={onChange} />
         </div>

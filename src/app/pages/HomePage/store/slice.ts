@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // import type { PayloadAction } from '@reduxjs/toolkit'
 import { getVideos } from 'app/api'
 
-export const getVideosAction: any = createAsyncThunk('getVideos', async (param: string) => {
-    const response = await getVideos(param);
+export const getVideosAction: any = createAsyncThunk('getVideos', async ({ accessToken, search }: any) => {
+    const response = await getVideos(accessToken, search);
     return response;
 })
 

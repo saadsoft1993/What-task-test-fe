@@ -10,12 +10,12 @@ export const login = (payload: LoginPayload) => request(`${CONFIG.serverUrl}/api
     method: 'POST',
     headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
     },
     body: JSON.stringify(payload)
 })
 
-export const getVideos = (accessToken: string) => request(`${CONFIG.serverUrl}/api/v1/videos`, {
+export const getVideos = (accessToken: string, search: string = '') => request(`${CONFIG.serverUrl}/api/v1/videos/?name=${search}`, {
     method: 'GET',
     headers: {
         'Accept': 'application/json',

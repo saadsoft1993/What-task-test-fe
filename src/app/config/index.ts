@@ -1,5 +1,5 @@
 const CONFIG = {
-    serverUrl: 'http://192.168.0.157:8001'
+    serverUrl: process.env.REACT_APP_SERVER_URL
 }
 
 export default CONFIG
