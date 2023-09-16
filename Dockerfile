@@ -1,25 +1,18 @@
-FROM node:16.15.1
-
-# for caching optimisations
-COPY package*.json /
-RUN npm install
-# required to serve the react app on the live server
-RUN npm install -g serve
-
-COPY . /app
+FROM node:16-alpine AS builder
 WORKDIR /app
-
-# noop files for non python projects and local development
-RUN echo "#!/bin/bash" > /app/migrate.sh && chmod +x /app/migrate.sh
-RUN echo "#!/bin/bash" > /usr/local/bin/start && chmod +x /usr/local/bin/start
-
-ENV PATH=/node_modules/.bin:$PATH
-ENV PORT=80
-ENV HOST=0.0.0.0
-ENV BROWSER='none'
-
-RUN npm run build
-
+COPY package.json ./
+COPY yarn.lock ./
+COPY public/ public/
+COPY src/ src/
+COPY tsconfig.json ./
+RUN yarn
+RUN echo "REACT_APP_API_PATH=https://what-be-stage.us.aldryn.io/api/v1" > .env
+RUN yarn run build
+FROM nginx:1.23.2-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/build /usr/share/nginx/html
+RUN touch /var/run/nginx.pid
+RUN chown -R nginx:nginx /var/run/nginx.pid /usr/share/nginx/html /var/cache/nginx /var/log/nginx /etc/nginx/conf.d
+USER nginx
 EXPOSE 80
-
-CMD ["serve", "-s", "build", "-l", "80"]
+CMD ["nginx", "-g", "daemon off;"]
