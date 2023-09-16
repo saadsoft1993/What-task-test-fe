@@ -30,7 +30,7 @@ const EditModal = ({ video }: EditModalProps) => {
             </Button>
             <div>
                 <Modal
-                    title="Edit Item"
+                    title="Update Rating"
                     open={isModalVisible}
                     onCancel={() => setIsModalVisible(false)}
                     onOk={onEdit}
