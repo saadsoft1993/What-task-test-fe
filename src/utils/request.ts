@@ -48,6 +48,10 @@ export async function request(
   url: string,
   options?: RequestInit
 ): Promise<{} | { err: ResponseError }> {
+  const accessToken = localStorage.getItem('accessToken')
+  if (accessToken && options && options.headers) {
+    options.headers['Authorization'] = `Bearer ${accessToken}`
+  }
   const fetchResponse = await fetch(url, options);
   const response = checkStatus(fetchResponse);
   return parseJSON(response);

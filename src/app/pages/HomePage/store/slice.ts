@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // import type { PayloadAction } from '@reduxjs/toolkit'
-import { getVideos } from 'app/api'
+import { getVideos, updateVideoRating, UpdateRatingPayload } from 'app/api'
 
-export const getVideosAction: any = createAsyncThunk('getVideos', async ({ accessToken, search }: any) => {
-    const response = await getVideos(accessToken, search);
+export const getVideosAction: any = createAsyncThunk('getVideos', async (search: string) => {
+    const response = await getVideos(search);
+    return response;
+})
+
+export const updateVideoRatingAction: any = createAsyncThunk('updateVideoRating', async (payload: UpdateRatingPayload, { dispatch }) => {
+    const response = await updateVideoRating(payload);
+    dispatch(getVideosAction())
     return response;
 })
 
@@ -17,11 +23,13 @@ export interface Video {
 
 export interface VideosState {
     loading: boolean
+    updatig: boolean
     videos: Video[]
 }
 
 const initialState: VideosState = {
     loading: false,
+    updatig: false,
     videos: []
 }
 
@@ -39,6 +47,15 @@ export const videosSlice = createSlice({
         },
         [getVideosAction.rejected]: state => {
             state.loading = false
+        },
+        [updateVideoRatingAction.pending]: state => {
+            state.updatig = true
+        },
+        [updateVideoRatingAction.fulfilled]: (state, action) => {
+            state.updatig = false
+        },
+        [updateVideoRatingAction.rejected]: state => {
+            state.updatig = false
         }
     },
 })

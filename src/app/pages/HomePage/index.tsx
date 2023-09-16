@@ -4,8 +4,8 @@ import debounce from 'lodash.debounce'
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './style.scss'
-import EditModal from './components/MainContent/EditModal';
-import DeleteModal from './components/MainContent/DeleteModal';
+import EditModal from './components/EditModal';
+import DeleteModal from './components/DeleteModal';
 
 import Header from '../../components/Header'
 
@@ -23,17 +23,10 @@ export function HomePage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getVideosAction({ accessToken }))
+    dispatch(getVideosAction())
   }, [])
 
-  interface DataType {
-    name: string;
-    url: string;
-    tags: string[];
-    average_rating: number;
-  }
-
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<Video> = [
     {
       title: 'Title',
       dataIndex: 'name',
@@ -49,6 +42,7 @@ export function HomePage() {
       title: 'Ratings',
       dataIndex: 'average_rating',
       width: '30%',
+      key: 'average_rating',
       sorter: (a, b) => a.average_rating - b.average_rating
     },
     {
@@ -60,12 +54,15 @@ export function HomePage() {
       title: 'Actions',
       dataIndex: 'actions',
       width: '30%',
-      render: () => (
-        <div className='mainContainer'>
-          <EditModal />
-          <DeleteModal />
-        </div>
-      ),
+      render: (_, record) => {
+        console.log('data', record);
+        return (
+          <div className='mainContainer'>
+            <EditModal video={record} />
+            <DeleteModal />
+          </div>
+        )
+      },
     },
   ];
 
@@ -75,7 +72,7 @@ export function HomePage() {
 
   const onSearch = (search: string) => {
     setSearch(search)
-    dispatch(getVideosAction({ accessToken, search }))
+    dispatch(getVideosAction(search))
   }
 
   return (

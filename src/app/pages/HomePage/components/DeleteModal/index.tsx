@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'antd';
 
-const EditModal = () => {
+const DeleteModal = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleEditClick = () => {
@@ -15,12 +15,12 @@ const EditModal = () => {
     return (
         <div>
             <Button type="primary" onClick={handleEditClick}>
-                Edit
+                Delete
             </Button>
             <div>
                 <Modal
-                    title="Edit Item"
-                    visible={isModalVisible}
+                    title="Delete Item"
+                    open={isModalVisible}
                     onCancel={handleCloseModal}
                     onOk={handleCloseModal}
                 >
@@ -30,4 +30,4 @@ const EditModal = () => {
     );
 };
 
-export default EditModal
+export default DeleteModal
