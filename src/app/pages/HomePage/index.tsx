@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import debounce from 'lodash.debounce'
 
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -76,7 +75,7 @@ export function HomePage() {
       <div className="container py-5">
         <Input name="search" type="text" placeholder='Search' value={search} onChange={e => onSearch(e.target.value)} />
         <div className="table-row">
-          <Table columns={columns} dataSource={videos} />
+          <Table columns={columns} dataSource={videos} rowKey="id" />
         </div>
       </div>
     </>

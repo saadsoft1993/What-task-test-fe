@@ -14,7 +14,7 @@ export const store = configureStore({
     reducer: {
         login: persistReducer(loginPersistConfig, loginReducer),
         videos: videosReducer
-    },
+    }
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

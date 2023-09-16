@@ -11,12 +11,14 @@ export interface LoginState {
     loading: boolean
     accessToken: string
     hasError: boolean
+    email: string
 }
 
 const initialState: LoginState = {
     loading: false,
     accessToken: '',
-    hasError: false
+    hasError: false,
+    email: ''
 }
 
 export const loginSlice = createSlice({
@@ -36,10 +38,11 @@ export const loginSlice = createSlice({
         [loginAction.fulfilled]: (state, action) => {
             state.loading = false
             state.hasError = false
+            state.email = action.payload.email
             state.accessToken = action.payload.access
             localStorage.setItem('accessToken', action.payload.access)
         },
-        [loginAction.rejected]: (state, action) => {
+        [loginAction.rejected]: (state) => {
             state.loading = false
             state.hasError = true
         }
