@@ -36,3 +36,11 @@ export const updateVideoRating = (payload: UpdateRatingPayload) => request(`${CO
     },
     body: JSON.stringify(payload)
 })
+
+export const deleteVideo = (id: string) => request(`${CONFIG.serverUrl}/api/v1/videos/${id}/delete/`, {
+    method: 'DELETE',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+})

@@ -1,14 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // import type { PayloadAction } from '@reduxjs/toolkit'
-import { getVideos, updateVideoRating, UpdateRatingPayload } from 'app/api'
+import { getVideos, updateVideoRating, deleteVideo, UpdateRatingPayload } from 'app/api'
 
 export const getVideosAction: any = createAsyncThunk('getVideos', async (search: string) => {
-    const response = await getVideos(search);
+    const response = await getVideos(search)
     return response;
 })
 
 export const updateVideoRatingAction: any = createAsyncThunk('updateVideoRating', async (payload: UpdateRatingPayload, { dispatch }) => {
-    const response = await updateVideoRating(payload);
+    const response = await updateVideoRating(payload)
+    dispatch(getVideosAction())
+    return response;
+})
+
+export const deleteVideoAction: any = createAsyncThunk('deleteVideo', async (id: string, { dispatch }) => {
+    const response = await deleteVideo(id)
     dispatch(getVideosAction())
     return response;
 })

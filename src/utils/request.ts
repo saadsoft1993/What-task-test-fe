@@ -52,6 +52,7 @@ export async function request(
   if (accessToken && options && options.headers) {
     options.headers['Authorization'] = `Bearer ${accessToken}`
   }
+
   const fetchResponse = await fetch(url, options);
   const response = checkStatus(fetchResponse);
   return parseJSON(response);

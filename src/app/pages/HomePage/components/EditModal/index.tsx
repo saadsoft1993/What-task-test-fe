@@ -34,6 +34,7 @@ const EditModal = ({ video }: EditModalProps) => {
                     open={isModalVisible}
                     onCancel={() => setIsModalVisible(false)}
                     onOk={onEdit}
+                    okText="Update"
                 >
                     <FormSelect value={rating} onChange={e => setRating(parseInt(e.target.value))}>
                         <option>Rating</option>

@@ -10,35 +10,43 @@ export const loginAction: any = createAsyncThunk('login', async (param: LoginPay
 export interface LoginState {
     loading: boolean
     accessToken: string
+    hasError: boolean
 }
 
 const initialState: LoginState = {
     loading: false,
-    accessToken: ''
+    accessToken: '',
+    hasError: false
 }
 
 export const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        logout: () => initialState
+        logout: () => initialState,
+        clearError: state => {
+            state.hasError = false
+        }
     },
     extraReducers: {
         [loginAction.pending]: state => {
             state.loading = true
+            state.hasError = false
         },
         [loginAction.fulfilled]: (state, action) => {
             state.loading = false
+            state.hasError = false
             state.accessToken = action.payload.access
             localStorage.setItem('accessToken', action.payload.access)
         },
-        [loginAction.rejected]: state => {
+        [loginAction.rejected]: (state, action) => {
             state.loading = false
+            state.hasError = true
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { logout } = loginSlice.actions
+export const { logout, clearError } = loginSlice.actions
 
 export default loginSlice.reducer

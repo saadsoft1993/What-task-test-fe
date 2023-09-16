@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { object, string } from 'yup'
 
 import { Alert } from 'react-bootstrap';
@@ -8,7 +8,7 @@ import Button from 'app/components/Button'
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { loginAction } from './store/slice'
+import { loginAction, clearError } from './store/slice'
 
 import { RootState } from 'store'
 
@@ -16,6 +16,8 @@ import './style.scss'
 
 const Login = () => {
   const loading: boolean = useSelector((state: RootState) => state.login.loading)
+  const hasError: boolean = useSelector((state: RootState) => state.login.hasError)
+
   const dispatch = useDispatch()
 
   const validationSchema = object().shape({
@@ -29,9 +31,7 @@ const Login = () => {
       password: ''
     },
     validationSchema,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
+    onSubmit: () => { },
   })
 
   const onLogin = () => {
@@ -41,18 +41,23 @@ const Login = () => {
     }))
   }
 
-  console.log('values', values, errors, isValid);
+  useEffect(() => {
+    dispatch(clearError())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="login-container">
       <form className="w-100">
         <div className="login-form-content">
           <h3 className="login-form-title">Sign In</h3>
-          <div className="error-message my-4">
-            <Alert className='text-danger alert alert-danger fade show'>
-              This is a danger alert — check it out!
-            </Alert>
-          </div>
+          {hasError && (
+            <div className="error-message my-4">
+              <Alert className='text-danger alert alert-danger fade show'>
+                Please provide authentic credentials.
+              </Alert>
+            </div>
+          )}
           <div className="form-group mt-3">
             <label>Email address</label>
             <Input

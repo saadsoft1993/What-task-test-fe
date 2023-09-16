@@ -18,12 +18,12 @@ import Input from 'app/components/Input'
 
 export function HomePage() {
   const [search, setSearch] = useState('')
-  const accessToken: string = useSelector((state: RootState) => state.login.accessToken)
   const videos: Video[] = useSelector((state: RootState) => state.videos.videos)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getVideosAction())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const columns: ColumnsType<Video> = [
@@ -55,24 +55,19 @@ export function HomePage() {
       dataIndex: 'actions',
       width: '30%',
       render: (_, record) => {
-        console.log('data', record);
         return (
           <div className='mainContainer'>
             <EditModal video={record} />
-            <DeleteModal />
+            <DeleteModal id={record.id} />
           </div>
         )
       },
     },
   ];
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
-
   const onSearch = (search: string) => {
     setSearch(search)
-    dispatch(getVideosAction(search))
+    debounce(dispatch(getVideosAction(search)), 1000)
   }
 
   return (
@@ -81,7 +76,7 @@ export function HomePage() {
       <div className="container py-5">
         <Input name="search" type="text" placeholder='Search' value={search} onChange={e => onSearch(e.target.value)} />
         <div className="table-row">
-          <Table columns={columns} dataSource={videos} onChange={onChange} />
+          <Table columns={columns} dataSource={videos} />
         </div>
       </div>
     </>
