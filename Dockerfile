@@ -6,7 +6,6 @@ COPY public/ public/
 COPY src/ src/
 COPY tsconfig.json ./
 RUN yarn
-RUN echo "REACT_APP_API_PATH=https://what-be-stage.us.aldryn.io/api/v1" > .env
 RUN yarn run build
 FROM nginx:1.23.2-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf

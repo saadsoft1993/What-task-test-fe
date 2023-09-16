@@ -1,8 +1,5 @@
 # React.js Video Management Frontend Application
-​
-## Introduction
-​
-This is a frontend application built using [React.js](https://reactjs.org/), a popular JavaScript library for building user interfaces. This application serves as a starting point for creating web applications with a dynamic and interactive user interface.
+
 ​
 ## Getting Started
 ​
@@ -15,7 +12,7 @@ This is a frontend application built using [React.js](https://reactjs.org/), a p
 ​
 Clone this repository to your local machine
 ​
-cd react-frontend-app
+cd Video
 ​
 npm install
 # or if you prefer yarn

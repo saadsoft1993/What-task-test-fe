@@ -67,7 +67,7 @@ export function HomePage() {
 
   const onSearch = (search: string) => {
     setSearch(search)
-    debounce(dispatch(getVideosAction(search)), 1000)
+    dispatch(getVideosAction(search))
   }
 
   return (
