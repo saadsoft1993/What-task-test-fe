@@ -48,6 +48,7 @@ export function HomePage() {
       title: 'Tags',
       dataIndex: 'tags',
       width: '30%',
+      sorter: (a, b) => a.average_rating - b.average_rating
     },
     {
       title: 'Actions',
@@ -73,7 +74,11 @@ export function HomePage() {
     <>
       <Header />
       <div className="container py-5">
-        <Input name="search" type="text" placeholder='Search' value={search} onChange={e => onSearch(e.target.value)} />
+        <div className="form-row">
+          <div className="mb-2 col-3">
+            <Input type="text" name="search" className="form-control" placeholder="Search..." value={search} onChange={e => onSearch(e.target.value)} />
+          </div>
+        </div>
         <div className="table-row">
           <Table columns={columns} dataSource={videos} rowKey="id" />
         </div>
